@@ -10,10 +10,9 @@ from utils_package.functions_tfidf import final_cleaning
 import joblib
 
 # pour la modelisation
-from sklearn.multiclass import OneVsRestClassifier
-from sklearn.preprocessing import StandardScaler
-from sklearn.feature_extraction.text import TfidfVectorizer
-import lightgbm as lgb
+# from sklearn.multiclass import OneVsRestClassifier
+# from sklearn.feature_extraction.text import TfidfVectorizer
+# import lightgbm as lgb
 
 app = FastAPI()
 
