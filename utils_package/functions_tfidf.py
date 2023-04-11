@@ -3,60 +3,48 @@ import re
 import nltk
 
 from nltk.corpus import stopwords as sw
-#from nltk.tokenize import RegexpTokenizer
-
 from nltk.stem import WordNetLemmatizer
-from nltk.stem.porter import PorterStemmer
-from nltk.stem.snowball import SnowballStemmer
 
-from sklearn.feature_extraction.text import TfidfVectorizer
-
-
-from sklearn.multiclass import OneVsRestClassifier
-from sklearn.linear_model import LogisticRegression
-
-
-nltk.download('stopwords')
-nltk.download('punkt')
-nltk.download('wordnet')
-nltk.download('omw-1.4')
+# nltk.download('stopwords')
+# nltk.download('punkt')
+# nltk.download('wordnet')
+# nltk.download('omw-1.4')
 #! python -m spacy download en_core_web_lg
-
 
 def clean_data(text,
                unicode_char=True,
                specific_rules=True,
-               number=True, 
+               number=True,
                case=True,
                strip=True,
                html=True,
                punctuation=True
                ):
-    
+
     if type(text) != 'str':
         text = str(text)
-    
+
     if unicode_char:
         text = text.encode("ascii", "ignore").decode()
-        
+
     if specific_rules:
         text = text.replace("h&gt",'').replace("&lt",'').replace("&gt",'')
-    
+
     if number:
       text = re.sub('\d+', '', text)
-    
+
     if case:
         text = text.lower()
-    
+
     if strip:
         text = text.strip()
-    
+
     if html:
         text = re.sub('<[^<]+?>', ' ', text)
-    
+
     if punctuation:
         text = re.sub('[^\\w\\s#]', ' ', text)
-    
+
     return text
 
 def remove_stop_word(text):
@@ -68,7 +56,7 @@ def lemmatizing(text):
     lemmatizer = WordNetLemmatizer()
     text = ' '.join([lemmatizer.lemmatize(word) for word in text.split()])
     return text
-        
+
 def tokenize(text):
   tokenizer = nltk.RegexpTokenizer(r'\w+')
   text = tokenizer.tokenize(text)

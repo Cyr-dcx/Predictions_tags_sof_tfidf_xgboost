@@ -4,7 +4,7 @@ import joblib
 # from typing import List
 from fastapi import FastAPI #HTTPException
 from pydantic import BaseModel
-from utils_package.functions_tfidf import *
+from utils_package.functions_tfidf import final_cleaning
 from sklearn.preprocessing import StandardScaler
 from sklearn.feature_extraction.text import TfidfVectorizer
 import xgboost
