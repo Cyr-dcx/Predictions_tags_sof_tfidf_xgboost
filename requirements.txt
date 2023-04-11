@@ -10,4 +10,4 @@ pandas
 numpy
 nltk
 scipy
-Lgqbm
+lightgbm
