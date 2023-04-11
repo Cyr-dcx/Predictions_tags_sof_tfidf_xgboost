@@ -11,11 +11,11 @@ import xgboost
 
 app = FastAPI()
 
-class Phrase(BaseModel): 
+class Phrase(BaseModel):
     phrase: str
     # batch_size: int
 
-# class Tags(BaseModel): 
+# class Tags(BaseModel):
 #     tags: List[str]
 
 
@@ -32,8 +32,10 @@ model = joblib.load(model_file)
 sentence_test="I've been making Python scripts for simple tasks at work and never really bothered packaging them for others to use. Now I have been assigned to make a Python wrapper for a REST API. I have absolutely no idea on how to start and I need help.What I have:(Just want to be specific as possible) I have the virtualenv ready, it's also up in github, the .gitignore file for python is there as well, plus, the requests library for interacting with the REST API. That's it.Here's the current directory tree"
 
 def preprocess_pipeline(question, scaler=scaler):
+    question_list = []
     preprocessed_question = final_cleaning(question, token=False)
-    X_tfidf = tfidf.transform(preprocessed_question)
+    question_list.append(str(preprocessed_question))
+    X_tfidf = tfidf.transform(question_list)
     X_processed = scaler.transform(X_tfidf)
     return X_processed
 
@@ -52,19 +54,19 @@ if test == "ok":
 #response_model=Tags,
 
 @app.get("/")
-def say_hello(one_phrase: Phrase): 
+def say_hello(one_phrase: Phrase):
     return {"hello": "word"}
 
 @app.post("/predict/", status_code=200)
-def read_item(one_phrase: Phrase): 
+def read_item(one_phrase: Phrase):
     question = one_phrase.phrase
     preprocessed_question = preprocess_pipeline(question)
     predictions = generate_prediction(preprocessed_question, my_model=model)
     tags = target_encoder.inverse_transform(predictions)
-    
+
     # if not tags:
     #     raise HTTPException(status_code=400, detail="XXX Model Not Found XXX")
-    prediction_tags = dict({"sentence": question, 
+    prediction_tags = dict({"sentence": question,
                        "tags" : tags})
-    
+
     return {"tags": tags}

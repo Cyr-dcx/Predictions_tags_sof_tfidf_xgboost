@@ -11,3 +11,4 @@ joblib
 pandas
 numpy
 nltk
+scipy
